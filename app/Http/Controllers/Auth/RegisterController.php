@@ -30,6 +30,16 @@ class RegisterController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        return view('auth.register', [ 'countries' => config('countries') ]);
+    }
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -48,9 +58,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'company' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
         ]);
     }
 
@@ -63,9 +76,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'company' => $data['company'],
+            'country' => $data['country'],
         ]);
     }
 }
