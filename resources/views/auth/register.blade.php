@@ -121,16 +121,4 @@
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.js"></script>
-<script>
-    new Vue({
-
-        el: '#country',
-
-        data: {
-            items: {!! json_encode($countries) !!},
-        }
-
-    })
-</script>
 @endsection
