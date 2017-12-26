@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Testing JS</title>
+</head>
+<body>
+
+	<script type="text/javascript">
+		var u = 4;
+	</script>
+
+	<script type="text/javascript" src="app.js"></script>
+
+	<script type="text/javascript">
+		var t = this.dbl(3);
+		console.log("From another file: " + t);
+
+		var t2 = this.dbl(u);
+		console.log("From above script tag: " + t2);
+
+		var t3 = this.dbl(this.num);
+		console.log("From function file, outside function scope: " + t3);
+
+		var t4 = this.dbl(this.num2);
+		console.log("From function file, inside function scope: " + t4);
+
+		var t5 = this.dbl(this.num3);
+		console.log("From another file, bellow: " + t5);
+	</script>
+	
+	<script type="text/javascript" src="first.js"></script>
+</body>
+</html>
