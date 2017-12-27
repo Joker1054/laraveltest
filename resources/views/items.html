@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Items</title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.com/libraries/bulma">
+</head>
+<body>
+
+	<div id="ItemsApp">
+
+		<ul>
+			<li v-for="task in tasks" v-text="task.description"></li>
+		</ul>
+
+		<textarea type="text" name="input" v-model="newTask"></textarea>
+		<button @click="addTask" :title="buttonTitle">Add</button>
+
+		<ul>
+			<li v-for="task in incompleteTasks" v-text="task.description"></li>
+		</ul>
+		
+	</div>
+
+
+
+	<script type="text/javascript" src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+
+
+	<script type="text/javascript">
+		
+		new Vue({
+
+			el: '#ItemsApp',
+
+			data: {
+
+				newTask: '',
+
+				items: [],
+
+				buttonTitle: 'Add task to list'
+
+			},
+
+			mounted() {
+
+				axios.get(/items).then(response=> this.items = response.data);
+			},
+
+			methods: {
+
+				
+
+				addTask() {
+
+					this.tasks.push(this.newTask);
+
+					this.newTask = '';
+				}
+			},
+
+			computed: {
+
+				incompleteTasks() {
+
+					return this.items.filter(task => !task.completed);
+				}
+			}
+
+
+		})
+
+		//v-on: == @   (@click)
+		//v-bind: == :   (:title)
+	</script>
+</body>
+</html>

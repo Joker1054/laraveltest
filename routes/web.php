@@ -25,3 +25,7 @@ Route::get('/home', 'HomeController@showHome')->middleware('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/main', function () {
+    return view('main');
+});
