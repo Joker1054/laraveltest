@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Item;
+use App\Http\Requests\StoreUpdateItemRequest;
 
 class ItemsController extends Controller
 {
@@ -15,7 +16,7 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        return Item::paginate(10);
+        return Item::paginate(40);
     }
 
     /**
@@ -24,17 +25,8 @@ class ItemsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateItemRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'body' => 'required|string|min:2',
-            'priority' => 'required|boolean',
-            'is_done' => 'required|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return $validator;
-        }
         return Item::create($request->only([ 'body', 'priority', 'is_done']));
     }
 
@@ -57,18 +49,8 @@ class ItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateItemRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'body' => 'required|string|min:2',
-            'priority' => 'required|boolean',
-            'is_done' => 'required|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-
         $item = Item::findOrFail($id);
         $item->update($request->only([ 'body', 'priority', 'is_done']));
         return $item;
@@ -84,7 +66,6 @@ class ItemsController extends Controller
     {
         $item = Item::findOrFail($id);
         $item->delete();
-
     }
 
 }
