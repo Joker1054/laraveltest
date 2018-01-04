@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -82,6 +83,23 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'company' => $data['company'],
             'country' => $data['country'],
+        ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        return response()->json([
+            'user' => $user,
+            'access_token' => \JWTAuth::fromUser($user),
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
         ]);
     }
 }

@@ -41,6 +41,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            \Illuminate\Session\Middleware\StartSession::class,
             \Barryvdh\Cors\HandleCors::class,
         ],
     ];
@@ -60,5 +61,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'home' => \App\Http\Middleware\HomeMiddleware::class,
+        'jwt' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class
     ];
 }

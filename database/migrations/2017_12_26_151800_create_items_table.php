@@ -15,6 +15,7 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->index();
             $table->string('body');
             $table->boolean('priority')->default(false);
             $table->boolean('is_done')->default(false);

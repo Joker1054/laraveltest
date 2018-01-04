@@ -16,7 +16,7 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        return Item::paginate(40);
+        return auth()->user()->items()->paginate(10);
     }
 
     /**
@@ -27,7 +27,10 @@ class ItemsController extends Controller
      */
     public function store(StoreUpdateItemRequest $request)
     {
-        return Item::create($request->only([ 'body', 'priority', 'is_done']));
+        return Item::create(array_merge(
+            $request->only([ 
+            'body', 'priority', 'is_done', 
+        ]), ['user_id' => auth()->user()->id ]));
     }
 
     /**
@@ -66,6 +69,13 @@ class ItemsController extends Controller
     {
         $item = Item::findOrFail($id);
         $item->delete();
+    }
+
+    public function forUser(User $user)
+    {
+        return Task::where('user_id', $user->id)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
     }
 
 }
