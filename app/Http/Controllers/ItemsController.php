@@ -29,7 +29,9 @@ class ItemsController extends Controller
     {
         return Item::create(array_merge(
             $request->only([ 
-            'body', 'priority', 'is_done', 
+            'body', 
+            'priority', 
+            'is_done', 
         ]), ['user_id' => auth()->user()->id ]));
     }
 

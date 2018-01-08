@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use App\Rules\Country;
 
 class RegisterController extends Controller
 {
@@ -64,7 +65,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'company' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
+            'country' => ['required', 'string', 'max:255', new Country],
         ]);
     }
 

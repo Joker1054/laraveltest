@@ -22,5 +22,9 @@ Route::group([
 ], function ($router) {
 
     Route::resource('items', ItemsController::class, [ 'except' => [ 'edit', 'create' ]]);
+    Route::post('users/{id}', 'UsersController@changeAvatar');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    Route::resource('users', UsersController::class, [ 'except' => [ 'create', 'store', 'edit']]);
 
 });
+
