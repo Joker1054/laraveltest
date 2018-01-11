@@ -16,7 +16,7 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        return auth()->user()->items()->paginate(10);
+        return auth()->user()->items()->paginate(20);
     }
 
     /**

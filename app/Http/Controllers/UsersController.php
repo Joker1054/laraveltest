@@ -73,7 +73,7 @@ class UsersController extends Controller
     {
         $user = User::findOrFail($id);
         $user->update($request->only(['firstname', 'lastname', 'email', 'company', 'country']));
-        return response()->json(['user' => auth()->user()]);
+        return response()->json(['user' => $user]);
     }
 
     /**
@@ -89,15 +89,16 @@ class UsersController extends Controller
 
     public function changeAvatar(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = auth()->user();
 
         if ($request->hasFile('file')) {
             
             $file = $request->file('file');
-            $name = 'avatar'.$id.'.jpg';
+            $name = str_random(10) . '.jpg';
+            $oldFile = basename($user->avatar_url);
 
-            if (\Storage::exists('public/'.$name)) {
-                \Storage::delete('public/'.$name);
+            if (\Storage::exists('public/'.$oldFile)) {
+                \Storage::delete('public/'.$oldFile);
             }
 
             $file->storeAs('public', $name);
@@ -105,6 +106,6 @@ class UsersController extends Controller
             $user->save();
         }
 
-        return response()->json(['user' => auth()->user()]);
+        return response()->json(['user' => $user ]);
     }
 }

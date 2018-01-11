@@ -40,13 +40,32 @@ class ResetPasswordController extends Controller
         $this->middleware('jwt');
     }
 
-    /*public function reset(ChangePasswordRequest $request) {
-        $id = $request->only(['id']);
-        $user = User::findOrFail($id);
-        return true;
-        $user->password = bcrypt($request->only(['password']));
+    public function changePassword(ChangePasswordRequest $request) {
+
+        $user = auth()->user();
+        $password = $request->get('password');
+        
+        $user->password = bcrypt($password);
         $user->save();
 
-        return true;
-    }*/
+        return response()->json(['user' => auth()->user()]);
+    }
+
+    /**
+     * Get the password reset validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:6',
+        ];
+    }
+
+    protected function sendResetResponse($response)
+    {
+        return response()->json([ 'status' => trans($response) ]);
+    }
 }
